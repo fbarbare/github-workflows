@@ -1,0 +1,28 @@
+name: Connect to AWS
+run-name: Connecting to AWS by @${{ github.actor }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      aws_region:
+        default: eu-west-2
+        description: The AWS region to connect to
+        required: true
+        type: string
+      aws_role_arn:
+        description: The ARN role to assume
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    name: Connecting to AWS
+    environment: production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: plentific/configure-aws-credentials@main
+        with:
+          role-to-assume: ${{ inputs.aws_role_arn }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ inputs.aws_region }}
