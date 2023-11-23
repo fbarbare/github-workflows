@@ -10,6 +10,7 @@ on:
         required: true
         type: string
       aws_role_arn:
+        default: test
         description: The ARN role to assume
         required: true
         type: string
