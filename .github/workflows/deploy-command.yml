@@ -1,4 +1,4 @@
-name: Slash-cmd repository deployments
+name: Slash command repository deployments
 run-name: Slash command repository deployment by @${{ github.event.client_payload.slash_command.args.named.actor }}
 
 on:
