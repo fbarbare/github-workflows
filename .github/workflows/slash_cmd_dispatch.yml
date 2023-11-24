@@ -41,6 +41,19 @@ jobs:
             comment_id=${{ github.event.comment.id }}
           token: ${{ steps.get-token.outputs.token }}
 
+      - name: Fetch pull request details
+        id: pull-request
+        env:
+          URL: ${{ github.event.issue.pull_request.url }}
+        run: |
+          RESPONSE="$(curl --fail-with-body $URL" 2>/dev/null)"
+          echo "response=$RESPONSE" >> $GITHUB_OUTPUT
+
+      - name: Logs PR
+        env:
+          PR: ${{ steps.pull-request.outputs.response }}
+        run: echo "$PR"
+
       - name: Create workflow dispatch event
         id: workflow-dispatch
         uses: peter-evans/slash-command-dispatch@a28ee6cd74d5200f99e247ebc7b365c03ae0ef3c # v3.0.1
