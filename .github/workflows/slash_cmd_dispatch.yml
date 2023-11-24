@@ -4,12 +4,25 @@ on:
   issue_comment:
     types: [created]
 
+permissions: write-all
+
 jobs:
   dispatch-slash-command:
     name: Dispatch slash command
     runs-on: ubuntu-latest
     environment: production
     steps:
+      - name: Logs
+        shell: bash
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+          SECRETS_CONTEX: ${{ toJSON(secrets) }}
+          VARS_CONTEX: ${{ toJSON(vars) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
+          echo "$SECRETS_CONTEX"
+          echo "$VARS_CONTEX"
+
       - uses: navikt/github-app-token-generator@a3831f44404199df32d8f39f7c0ad9bb8fa18b1c # v1.2.0
         id: get-token
         with:
@@ -28,11 +41,16 @@ jobs:
             comment_id=${{ github.event.comment.id }}
           token: ${{ steps.get-token.outputs.token }}
 
-      - name: Dump GitHub context
-        shell: bash
+      - name: Fetch pull request details
+        id: pull-request
+        run: |
+          RESPONSE="$(curl --fail-with-body ${{ github.event.issue.pull_request.url }} 2>/dev/null)"
+          echo "response=${RESPONSE//[$'\t\r\n']}" >> $GITHUB_OUTPUT
+
+      - name: Logs PR
         env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+          PR: ${{ toJSON(fromJSON(steps.pull-request.outputs.response)) }}
+        run: echo "$PR"
 
       - name: Create workflow dispatch event
         id: workflow-dispatch
@@ -47,8 +65,8 @@ jobs:
                 "issue_type": "pull-request",
                 "dispatch_type": "workflow",
                 "static_args": [
-                  "ref=fb/test",
-                  "payload={\"actor\":\"${{ github.event.comment.user.login }}\",\"comment_id\":\"${{ github.event.comment.id }}\",\"pull_request_title\":\"${{ github.event.issue.title }}\",\"pull_request_url\":\"${{ github.event.issue.pull_request.html_url }}\",}",
+                  "ref=${{ fromJSON(steps.pull-request.outputs.response).head.ref }}",
+                  "payload={\"actor\":\"${{ github.event.comment.user.login }}\",\"comment_id\":\"${{ github.event.comment.id }}\",\"pull_request_title\":\"${{ github.event.issue.title }}\",\"pull_request_url\":\"${{ github.event.issue.pull_request.html_url }}\",}"
                 ]
               }
             ]
