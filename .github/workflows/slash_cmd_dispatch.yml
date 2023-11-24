@@ -65,7 +65,7 @@ jobs:
                 "issue_type": "pull-request",
                 "dispatch_type": "workflow",
                 "static_args": [
-                  "ref=fb/test",
+                  "ref=${{ fromJSON(steps.pull-request.outputs.response).head.ref }}",
                   "payload={\"actor\":\"${{ github.event.comment.user.login }}\",\"comment_id\":\"${{ github.event.comment.id }}\",\"pull_request_title\":\"${{ github.event.issue.title }}\",\"pull_request_url\":\"${{ github.event.issue.pull_request.html_url }}\",}"
                 ]
               }
