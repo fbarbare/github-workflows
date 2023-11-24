@@ -15,9 +15,9 @@ jobs:
       - name: Logs
         shell: bash
         env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-          SECRETS_CONTEX: ${{ toJson(secrets) }}
-          VARS_CONTEX: ${{ toJson(vars) }}
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+          SECRETS_CONTEX: ${{ toJSON(secrets) }}
+          VARS_CONTEX: ${{ toJSON(vars) }}
         run: |
           echo "$GITHUB_CONTEXT"
           echo "$SECRETS_CONTEX"
