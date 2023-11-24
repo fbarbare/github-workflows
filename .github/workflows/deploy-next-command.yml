@@ -1,5 +1,5 @@
 name: Slash command workflow deployments
-run-name: Slash command workflow deployment by @${{ fromJSON(inputs.payload).actor }}
+run-name: Slash command workflow deployment
 
 on:
   workflow_dispatch:
@@ -19,4 +19,7 @@ jobs:
         shell: bash
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CONTEXT"
+          PAYLOAD: ${{ inputs.payload }}
+        run: |
+          echo "$GITHUB_CONTEXT"
+          echo "$PAYLOAD"
