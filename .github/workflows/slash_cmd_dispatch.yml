@@ -49,7 +49,7 @@ jobs:
 
       - name: Logs PR
         env:
-          PR: ${{ steps.pull-request.outputs.response }}
+          PR: ${{ toJSON(fromJSON(steps.pull-request.outputs.response)) }}
         run: echo "$PR"
 
       - name: Create workflow dispatch event
