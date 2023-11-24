@@ -55,7 +55,7 @@ jobs:
                 "dispatch_type": "workflow",
                 "static_args": [
                   "ref=fb/test",
-                  "payload={\"actor\":\"${{ github.event.comment.user.login }}\",\"comment_id\":\"${{ github.event.comment.id }}\",\"pull_request_title\":\"${{ github.event.issue.title }}\",\"pull_request_url\":\"${{ github.event.issue.pull_request.html_url }}\",}",
+                  "payload={\"actor\":\"${{ github.event.comment.user.login }}\",\"comment_id\":\"${{ github.event.comment.id }}\",\"pull_request_title\":\"${{ github.event.issue.title }}\",\"pull_request_url\":\"${{ github.event.issue.pull_request.html_url }}\",}"
                 ]
               }
             ]
