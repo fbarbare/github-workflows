@@ -45,7 +45,7 @@ jobs:
         id: pull-request
         run: |
           RESPONSE="$(curl --fail-with-body ${{ github.event.issue.pull_request.url }} 2>/dev/null)"
-          echo "response=$RESPONSE" >> $GITHUB_OUTPUT
+          echo "response=${RESPONSE//[$'\t\r\n']}" >> $GITHUB_OUTPUT
 
       - name: Logs PR
         env:
