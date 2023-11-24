@@ -46,7 +46,7 @@ jobs:
         env:
           URL: ${{ github.event.issue.pull_request.url }}
         run: |
-          RESPONSE="$(curl --fail-with-body $URL" 2>/dev/null)"
+          RESPONSE="$(curl --fail-with-body $URL 2>/dev/null)"
           echo "response=$RESPONSE" >> $GITHUB_OUTPUT
 
       - name: Logs PR
