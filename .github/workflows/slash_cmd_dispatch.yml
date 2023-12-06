@@ -43,8 +43,10 @@ jobs:
 
       - name: Fetch pull request details
         id: pull-request
+        env:
+          PULL_REQUEST_URL: ${{ github.event.issue.pull_request.url }}
         run: |
-          RESPONSE="$(curl --fail-with-body ${{ github.event.issue.pull_request.url }} 2>/dev/null)"
+          RESPONSE="$(curl --fail-with-body $PULL_REQUEST_URL 2>/dev/null)"
           echo "response=${RESPONSE//[$'\t\r\n']}" >> $GITHUB_OUTPUT
 
       - name: Logs PR
