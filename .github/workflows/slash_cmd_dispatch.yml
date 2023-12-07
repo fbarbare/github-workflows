@@ -90,7 +90,6 @@ jobs:
                 ]
               }
             ]
-payload={"actor":"fbarbare","comment_id":"1846146397","pull_request_title":"Update \" README.md","pull_request_url":"https://github.com/fbarbare/github-workflows/pull/1"}
 
       - name: Edit PR comment with error message
         if: steps.workflow-dispatch.outputs.error-message
