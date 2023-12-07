@@ -69,7 +69,7 @@ jobs:
           --arg pr_url "$PULL_REQUEST_URL" \
           '{ actor: $a, comment_id: $cid, pull_request_title: $pr_title, pull_request_url: $pr_url }')
 
-          echo "payload=${PAYLOAD@Q}"
+          echo "payload=${PAYLOAD//["]/\"}"
           echo "payload=${PAYLOAD@Q}" >> $GITHUB_OUTPUT
 
       - name: Create workflow dispatch event
