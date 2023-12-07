@@ -20,7 +20,9 @@ jobs:
         shell: bash
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
+          ACTOR: ${{ fromJSON(inputs.payload).actor }}
           PAYLOAD: ${{ inputs.payload }}
         run: |
+          echo "$ACTOR"
           echo "$GITHUB_CONTEXT"
           echo "$PAYLOAD"
