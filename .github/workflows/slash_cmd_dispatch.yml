@@ -64,9 +64,10 @@ jobs:
           permission: write
           issue-type: pull-request
           dispatch-type: workflow
-          static-args: |
-            ref=${{ fromJSON(steps.pull-request.outputs.response).head.ref }}
-            payload="{\"actor\":\"${{ github.event.comment.user.login }}\"\,\"comment_id\":\"${{ github.event.comment.id }}\"\,\"pull_request_title\":\"${{ github.event.issue.title }}\"\,\"pull_request_url\":\"${{ github.event.issue.pull_request.html_url }}\"}"
+          # static-args: |
+          #   ref=${{ fromJSON(steps.pull-request.outputs.response).head.ref }}
+          # payload=${{ toJSON({ actor: github.event.comment.user.login }) }}
+          # payload="{\"actor\":\"${{ github.event.comment.user.login }}\"\,\"comment_id\":\"${{ github.event.comment.id }}\"\,\"pull_request_title\":\"${{ github.event.issue.title }}\"\,\"pull_request_url\":\"${{ github.event.issue.pull_request.html_url }}\"}"
 
       - name: Edit PR comment with error message
         if: steps.workflow-dispatch.outputs.error-message
