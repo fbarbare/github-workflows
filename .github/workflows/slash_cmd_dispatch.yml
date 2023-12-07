@@ -54,6 +54,23 @@ jobs:
           PR: ${{ toJSON(fromJSON(steps.pull-request.outputs.response)) }}
         run: echo "$PR"
 
+      - name: Create workflow payload
+        id: create-payload
+        env:
+          ACTOR: ${{ github.event.comment.user.login }}
+          COMMENT_ID: ${{ github.event.comment.id }}
+          PULL_REQUEST_TITLE: ${{ github.event.issue.title }}
+          PULL_REQUEST_URL: ${{ github.event.issue.pull_request.html_url }}
+        run: |
+          PAYLOAD=$(jq -n \
+          --arg a "$ACTOR" \
+          --arg cid "$COMMENT_ID" \
+          --arg pr_title "$PULL_REQUEST_TITLE" \
+          --arg pr_url "$PULL_REQUEST_URL" \
+          '{ actor: $a, comment_id: $cid, pull_request_title: $pr_title, pull_request_url: $pr_url }')
+
+          echo "payload=${PAYLOAD}" >> $GITHUB_OUTPUT
+
       - name: Create workflow dispatch event
         id: workflow-dispatch
         uses: peter-evans/slash-command-dispatch@a28ee6cd74d5200f99e247ebc7b365c03ae0ef3c # v3.0.1
@@ -68,7 +85,7 @@ jobs:
                 "dispatch_type": "workflow",
                 "static_args": [
                   "ref=${{ fromJSON(steps.pull-request.outputs.response).head.ref }}",
-                  "payload={\"actor\":\"${{ github.event.comment.user.login }}\",\"comment_id\":\"${{ github.event.comment.id }}\",\"pull_request_title\":\"${{ github.event.issue.title }}\",\"pull_request_url\":\"${{ github.event.issue.pull_request.html_url }}\",}"
+                  "payload=${{ steps.create-payload.outputs.payload }}"
                 ]
               }
             ]
