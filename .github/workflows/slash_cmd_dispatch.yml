@@ -62,13 +62,18 @@ jobs:
           PULL_REQUEST_TITLE: ${{ github.event.issue.title }}
           PULL_REQUEST_URL: ${{ github.event.issue.pull_request.html_url }}
         run: |
-          PAYLOAD=$(jq -n \
+          PAYLOAD=$(jq -n -c \
           --arg a "$ACTOR" \
           --arg cid "$COMMENT_ID" \
           --arg pr_title "$PULL_REQUEST_TITLE" \
           --arg pr_url "$PULL_REQUEST_URL" \
           '{ actor: $a, comment_id: $cid, pull_request_title: $pr_title, pull_request_url: $pr_url }')
 
+          # Escaping the qotes of the JSON string
+          PAYLOAD=${PAYLOAD//\"/\\\"}
+          PAYLOAD=${PAYLOAD//\\\\\"/\\\\\\\"}
+
+          echo "payload=${PAYLOAD}"
           echo "payload=${PAYLOAD}" >> $GITHUB_OUTPUT
 
       - name: Create workflow dispatch event
