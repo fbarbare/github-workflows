@@ -81,19 +81,13 @@ jobs:
         uses: peter-evans/slash-command-dispatch@a28ee6cd74d5200f99e247ebc7b365c03ae0ef3c # v3.0.1
         with:
           token: ${{ steps.get-token.outputs.token }}
-          config: >
-            [
-              {
-                "command": "deploy-next",
-                "permission": "write",
-                "issue_type": "pull-request",
-                "dispatch_type": "workflow",
-                "static_args": [
-                  "ref=${{ fromJSON(steps.pull-request.outputs.response).head.ref }}",
-                  "payload=${{ steps.create-payload.outputs.payload }}"
-                ]
-              }
-            ]
+          commands: deploy-next
+          permission: write
+          issue-type: pull-request
+          dispatch-type: workflow
+          static-args: |
+            ref=${{ fromJSON(steps.pull-request.outputs.response).head.ref }}
+            payload=${{ steps.create-payload.outputs.payload }}
 
       - name: Edit PR comment with error message
         if: steps.workflow-dispatch.outputs.error-message
