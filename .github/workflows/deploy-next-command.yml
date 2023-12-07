@@ -1,5 +1,5 @@
 name: Slash command workflow deployments
-run-name: Slash command workflow deployment by @${{ fromJson(inputs.payload).actor }}
+run-name: Slash command workflow deployment by ${{ inputs.payload }}
 
 on:
   workflow_dispatch:
