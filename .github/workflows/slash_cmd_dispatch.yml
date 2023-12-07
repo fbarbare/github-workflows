@@ -62,7 +62,7 @@ jobs:
           PULL_REQUEST_TITLE: ${{ github.event.issue.title }}
           PULL_REQUEST_URL: ${{ github.event.issue.pull_request.html_url }}
         run: |
-          PAYLOAD=$(jq -n -r tostring \
+          PAYLOAD=$(jq -n -c \
           --arg a "$ACTOR" \
           --arg cid "$COMMENT_ID" \
           --arg pr_title "$PULL_REQUEST_TITLE" \
