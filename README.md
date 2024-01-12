@@ -4,4 +4,4 @@ Testing GitHub workflows
 
 ## Slash deployment commands
 
-test
+It will run some workflow
