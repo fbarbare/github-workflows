@@ -4,6 +4,6 @@ Testing GitHub workflows
 
 ## Slash deployment commands
 
-It will run some workflow
+Writing the `/deploy-next` comment will run some workflow
 
 ## PR checks
