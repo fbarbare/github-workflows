@@ -21,7 +21,7 @@ permissions:
 jobs:
   deploy:
     name: Connecting to AWS
-    environment: production
+    # environment: production
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS credentials
