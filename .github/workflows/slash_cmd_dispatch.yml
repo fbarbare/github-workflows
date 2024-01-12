@@ -70,7 +70,7 @@ jobs:
           '{ actor: $a, comment_id: $cid, pull_request_title: $pr_title, pull_request_url: $pr_url }')
 
           # Escaping the qotes of the JSON string
-          ESCAPED_PAYLOAD=$(jq -n -c --arg p "$PAYLOAD" '{payload: $p}' | jq -r .payload)
+          ESCAPED_PAYLOAD=$(jq -n -c --arg p "$PAYLOAD" '{payload: $p}' | jq .payload | tail -c +2 | head -c -2)
 
           echo "payload=${ESCAPED_PAYLOAD}"
           echo "payload=${ESCAPED_PAYLOAD}" >> $GITHUB_OUTPUT
