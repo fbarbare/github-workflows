@@ -4,7 +4,7 @@ run-name: PR checks by @${{ github.actor }}
 on:
   pull_request:
     branches: 
-      - master
+      - main
     paths:
       - '.github/**.yml'
       - '.github/**.yaml'
