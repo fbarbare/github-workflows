@@ -1,0 +1,21 @@
+name: PR checks
+run-name: PR checks by @${{ github.actor }}
+
+on:
+  pull_request:
+    branches: 
+      - master
+    paths:
+      - '.github/**.yml'
+      - '.github/**.yaml'
+
+jobs:
+  check:
+    name: Run checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log GitHub context
+        shell: bash
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
